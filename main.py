@@ -6,9 +6,9 @@ from data.dataset import get_dataloaders
 from utils import save_plots
 
 
-with open('configs.json', 'r') as f:
+with open("configs.json", 'r') as f:
     configs = json.load(f)
-DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def train(model, dataloader, optimizer, criterion):
@@ -22,15 +22,15 @@ def train(model, dataloader, optimizer, criterion):
         images, labels = images.to(DEVICE), labels.to(DEVICE)
         
         outputs = model(images)
-        loss    = criterion(outputs, labels)
+        loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
-        num_correct     += int((torch.argmax(outputs, axis=1) == labels).sum())
-        total_loss      += float(loss.item())
+        num_correct += int((torch.argmax(outputs, axis=1) == labels).sum())
+        total_loss += float(loss.item())
 
-    acc         = 100 * num_correct / (configs['batch_size']*len(dataloader))
-    total_loss  = float(total_loss / len(dataloader))
+    acc = 100 * num_correct / (configs["batch_size"]*len(dataloader))
+    total_loss = float(total_loss / len(dataloader))
 
     return acc, total_loss
 
@@ -50,7 +50,7 @@ def validate(model, dataloader, criterion):
         num_correct += int((torch.argmax(outputs, axis=1) == labels).sum())
         total_loss += float(loss.item())
 
-    acc = 100 * num_correct / (configs['batch_size']*len(dataloader))
+    acc = 100 * num_correct / (configs["batch_size"]*len(dataloader))
     total_loss = float(total_loss / len(dataloader))
     return acc, total_loss
 
@@ -77,7 +77,7 @@ def main():
     train_loader, val_loader, test_loader = get_dataloaders(configs["train_dir"], configs["test_dir"], configs)
     model = SimpleCNN(num_classes=2)
     criterion = torch.nn.CrossEntropyLoss(label_smoothing=0.5)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=configs['learning_rate'])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=configs["learning_rate"])
 
     best_valacc = 0.0
     best_model = None
@@ -86,15 +86,15 @@ def main():
     train_accs = []
     val_accs = []
 
-    for epoch in range(configs['epochs']):
-        curr_lr = float(optimizer.param_groups[0]['lr'])
+    for epoch in range(configs["epochs"]):
+        curr_lr = float(optimizer.param_groups[0]["lr"])
 
         train_acc, train_loss = train(model, train_loader, optimizer, criterion)
         train_losses.append(train_loss)
         train_accs.append(train_acc)
         print("\nEpoch {}/{}: \nTrain Acc {:.04f}%\t Train Loss {:.04f}\t Learning Rate {:.04f}".format(
             epoch + 1,
-            configs['epochs'],
+            configs["epochs"],
             train_acc,
             train_loss,
             curr_lr))
