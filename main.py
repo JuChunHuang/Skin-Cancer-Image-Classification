@@ -77,7 +77,7 @@ def main():
     train_loader, val_loader, test_loader = get_dataloaders(configs["train_dir"], configs["test_dir"], configs)
     model = SimpleCNN(num_classes=2)
     criterion = torch.nn.CrossEntropyLoss(label_smoothing=0.5)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=configs["learning_rate"])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=configs["learning_rate"], weight_decay=configs["weight_decay"])
 
     best_valacc = 0.0
     best_model = None
