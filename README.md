@@ -2,6 +2,15 @@
 
 This repository contains code for training and evaluating a Convolutional Neural Network (CNN) for image classification using PyTorch.
 
+## Model Performance
+
+| Metrics     |        |
+| ----------- | ------ |
+| `Accuracy`  | 0.9240 |
+| `Precision` | 0.9266 |
+| `Recall`    | 0.9210 |
+| `F1 Score`  | 0.9238 |
+
 ## Directory Structure
 
     skin_cancer_classification/
